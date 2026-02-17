@@ -8,9 +8,7 @@ import {checkCsrfError, csrfMiddleware, middlewareGlobal } from './src/middlewar
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import flash from 'connect-flash'
-import helmet from 'helmet';
 import csrf from 'csurf';
-import { json } from 'stream/consumers';
 
 // Conexão com o banco de dados 
 dotenv.config()
@@ -25,7 +23,6 @@ mongoose.connect(process.env.CONNECTIONSTRING,{useNewUrlParser:true,useUnifiedTo
 const app = express()
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-app.use(helmet())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static(path.resolve(__dirname,'public')))
 const sessionOptions = session({
@@ -51,10 +48,11 @@ app.use(middlewareGlobal)
 app.use(csrfMiddleware)
 app.use(checkCsrfError)
 app.use(routes)
+
 //Só abre a porta caso ele conecte com a base de dados
 app.on('conectado',() =>{
     app.listen(3000,() => {
-    console.log('Acessar http://localhost')
+    console.log('Acessar http://localhost:3000')
     console.log('Servidor executando na porta 3000')
 })
 })
