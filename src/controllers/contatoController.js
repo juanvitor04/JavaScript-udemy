@@ -1,7 +1,34 @@
+import { Contato } from "../models/contatoModel.js"
 const contatoController = {
-    paginaInicial(req,res){
-    res.send(`Obrigado por entrar em Contato`)
-}
-}
+    index(req,res){
+    res.render('contato', { contato: {} })
+},
+    async register(req,res){
+        try{
+            const contato = new Contato(req.body);
+        await contato.register();
+        if(contato.errors.length > 0){
+            req.flash('errors',contato.errors)
+            req.session.save(() => res.redirect('back'));
+            return;
+        }
+        req.flash('success','Contato registrado com sucesso.')
+        req.session.save(() => res.redirect(`/contato/index/${contato.contato._id}`)) 
+        return;
+        }
+        catch(e){
+           console.log(e);
+           return res.render('404');
+        }
+    },
+    async editIndex(req,res){
+        if(!req.params.id) return res.render('404');
+
+        const contato = await Contato.buscarPorId(req.params.id);
+
+        if(!contato) return res.render('404');
+        res.render('contato',{ contato });
+    }  
+};
 
 export default contatoController
