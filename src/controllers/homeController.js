@@ -1,6 +1,9 @@
+import {Contato} from '../models/contatoModel.js'
+
 const homeController = {
-    index(req,res){
-    res.render('index')
+    async index(req,res){
+        const contatos = await Contato.buscaContatos()
+    res.render('index',{contatos})
 },
 
 }

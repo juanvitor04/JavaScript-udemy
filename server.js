@@ -13,7 +13,10 @@ import csrf from 'csurf';
 // Conexão com o banco de dados 
 dotenv.config()
 mongoose.set('strictQuery',true)
-mongoose.connect(process.env.CONNECTIONSTRING,{useNewUrlParser:true,useUnifiedTopology:true})
+mongoose.connect(process.env.CONNECTIONSTRING,{
+  useNewUrlParser:true,
+  useUnifiedTopology:true,
+  useUnifiedTopology:true,})
 .then(() => {
     console.log('conectado')
     app.emit('conectado')

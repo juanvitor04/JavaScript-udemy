@@ -43,12 +43,30 @@ class Contato{
             telefone:this.body.telefone,
         }
     }
+  
+    async edit(id){
+        this.valida()
+        if(typeof id !== 'string') return;
+        if(this.errors.length > 0) return;
+        this.contato = await ContatoModel.findByIdAndUpdate(id,this.body,{new:true});
+    };
+    // Métodos estáticos
      static async buscarPorId(id){
         if(typeof id !== 'string' ) return;
-        const user = await ContatoModel.findById(id);
-        return user;
+        const contato = await ContatoModel.findById(id);
+        return contato;
     }
-
+    static async delete(id){
+        if(typeof id !== 'string' ) return;
+        const contatos = await ContatoModel.findOneAndDelete({_id:id})
+        .sort({criadoEm: -1});
+        return contatos;
+    }
+    static async buscaContatos(){
+        const contatos = await ContatoModel.find()
+        .sort({criadoEm:-1});
+        return contatos;
+    }
 }
 
 export {Contato}
