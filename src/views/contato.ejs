@@ -9,10 +9,10 @@
       <p class="text-center lead">Crie ou edite seu contato abaixo.</p>
 
       <% if(contato._id){ %>
-        <form action="/contato/edit/<%= contato._id %>" method="POST">
+        <form class="form-contato" action="/contato/edit/<%= contato._id %>" method="POST">
       <%- include('includes/messages') %>
       <% } else { %>
-        <form action="/contato/register" method="POST">
+        <form class="form-contato" action="/contato/register" method="POST">
       <% } %>
 
 
